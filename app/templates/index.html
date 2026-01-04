@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Home - My Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    .posts-container {
+        display: grid;
+        gap: 20px;
+    }
+    
+    .post-card {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 25px;
+        transition: all 0.3s;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .post-card:hover {
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        transform: translateY(-3px);
+    }
+    
+    .post-title {
+        font-size: 1.8em;
+        color: #667eea;
+        margin-bottom: 10px;
+        text-decoration: none;
+        display: block;
+    }
+    
+    .post-title:hover {
+        text-decoration: underline;
+    }
+    
+    .post-meta {
+        color: #999;
+        font-size: 0.9em;
+        margin-bottom: 15px;
+    }
+    
+    .post-preview {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    
+    .post-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+    }
+    
+    .post-actions a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        margin-right: 15px;
+        transition: color 0.3s;
+    }
+    
+    .post-actions a:hover {
+        color: #764ba2;
+    }
+    
+    .comments-count {
+        color: #999;
+        font-size: 0.95em;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 40px;
+    }
+    
+    .pagination a, .pagination span {
+        padding: 8px 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #667eea;
+        transition: all 0.3s;
+    }
+    
+    .pagination a:hover {
+        background: #667eea;
+        color: white;
+    }
+    
+    .pagination .current {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+    
+    .empty-state h2 {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+        color: #666;
+    }
+    
+    .empty-state a {
+        display: inline-block;
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="posts-container">
+    {% if posts.items %}
+        {% for post in posts.items %}
+            <div class="post-card">
+                <a href="{{ url_for('main.view_post', post_id=post.id) }}" class="post-title">{{ post.title }}</a>
+                <div class="post-meta">
+                    By <strong>{{ post.author }}</strong> on <strong>{{ post.created_at.strftime('%B %d, %Y') }}</strong>
+                </div>
+                <div class="post-preview">
+                    {{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}
+                </div>
+                <div class="post-footer">
+                    <div class="post-actions">
+                        <a href="{{ url_for('main.view_post', post_id=post.id) }}">Read More</a>
+                        <a href="{{ url_for('main.edit_post', post_id=post.id) }}">Edit</a>
+                    </div>
+                    <div class="comments-count">
+                        💬 {{ post.comments|length }} comment{% if post.comments|length != 1 %}s{% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        
+        {% if posts.pages > 1 %}
+            <div class="pagination">
+                {% if posts.has_prev %}
+                    <a href="{{ url_for('main.index', page=posts.prev_num) }}">← Previous</a>
+                {% endif %}
+                
+                {% for page_num in posts.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num == posts.page %}
+                            <span class="current">{{ page_num }}</span>
+                        {% else %}
+                            <a href="{{ url_for('main.index', page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if posts.has_next %}
+                    <a href="{{ url_for('main.index', page=posts.next_num) }}">Next →</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="empty-state">
+            <h2>No posts yet</h2>
+            <p>Be the first to share your thoughts!</p>
+            <a href="{{ url_for('main.create_post') }}" class="post-title">Create a new post</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

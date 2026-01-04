@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}About - My Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-container {
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+    
+    .about-container h1 {
+        color: #667eea;
+        margin-bottom: 20px;
+    }
+    
+    .about-container h2 {
+        color: #764ba2;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+    
+    .about-container p {
+        color: #555;
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-container">
+    <h1>About This Blog</h1>
+    
+    <p>
+        Welcome to my blog! This is a place where I share my thoughts, stories, and ideas on various topics.
+        Whether it's technology, lifestyle, learning, or anything in between, you'll find diverse content here.
+    </p>
+    
+    <h2>Why This Blog?</h2>
+    <p>
+        I created this blog as a platform to express my ideas and connect with like-minded individuals.
+        It serves as a personal journal, a knowledge base, and a community where we can all learn from each other.
+    </p>
+    
+    <h2>What You'll Find</h2>
+    <p>
+        This blog features:
+    </p>
+    <ul style="margin-left: 20px; color: #555;">
+        <li>In-depth articles on various topics</li>
+        <li>Personal stories and experiences</li>
+        <li>Tips, tutorials, and how-to guides</li>
+        <li>Thoughts on current events and trends</li>
+        <li>Community discussions through comments</li>
+    </ul>
+    
+    <h2>About the Author</h2>
+    <p>
+        I'm a passionate writer and creator who loves sharing knowledge and connecting with others.
+        Feel free to reach out, share your thoughts, or suggest topics for future posts!
+    </p>
+    
+    <h2>Stay Connected</h2>
+    <p>
+        Have questions or feedback? Feel free to leave comments on posts or reach out directly.
+        I'd love to hear from you!
+    </p>
+</div>
+{% endblock %}
